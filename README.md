@@ -1,3 +1,9 @@
+# Envoy with React
+
+A sample project demonstrating how to use Envoy with react and a C# backend
+
+![image](https://i.gyazo.com/18795ae77ce93780469c674063863ba4.png)
+
 ## Local-isolated API development
 
 ```
@@ -50,3 +56,9 @@ cd webapp && pnpm i && pnpm dev
 - `GET` -> https://localhost:10000/health
 - `GET` -> https://localhost:10000/sa/weatherforecast
 - `GET` -> https://localhost:10000/sb/weatherforecast
+
+## Resources
+
+- [gRPC Web Chat](https://github.com/angelomelonas/grpc-web-chat)
+- [Envoy POC implementation](https://github.com/smj187/dotnet-6-envoy-poc)
+- [Envoy HTTPS documentation](https://www.envoyproxy.io/docs/envoy/latest/start/quick-start/securing#start-quick-start-securing)
