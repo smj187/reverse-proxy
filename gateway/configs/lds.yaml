@@ -1,6 +1,6 @@
 resources:
   - "@type": type.googleapis.com/envoy.config.listener.v3.Listener
-    name: listener_0
+    name: listener_0_https
     address:
       socket_address:
         address: 0.0.0.0
@@ -24,7 +24,7 @@ resources:
                         direct_response:
                           status: 200
                           body:
-                            inline_string: '{"message":"direct response"}'
+                            inline_string: '{"message":"helthy"}'
                         response_headers_to_add:
                           - append: false
                             header:
@@ -52,6 +52,7 @@ resources:
                           numerator: 100
                           denominator: HUNDRED
                         runtime_key: cors.www.enabled
+
               http_filters:
                 - name: envoy.filters.http.cors
                   typed_config:
@@ -59,6 +60,7 @@ resources:
                 - name: envoy.filters.http.router
                   typed_config:
                     "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router
+
         transport_socket:
           name: envoy.transport_sockets.tls
           typed_config:

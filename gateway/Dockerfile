@@ -2,7 +2,6 @@ FROM envoyproxy/envoy-debug-dev:latest
 
 COPY ./envoy.yaml /etc/envoy.yaml
 COPY ./configs /var/lib/envoy
-COPY ./https /var/lib/envoy/https
 
 ADD ./certificates/server.crt /etc/server.crt
 ADD ./certificates/server.key /etc/server.key

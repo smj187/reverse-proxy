@@ -7,12 +7,12 @@ function App() {
 
   useEffect(() => {
     const loadWeatherFromServer = async () => {
-      const data = await fetch("https://localhost:5100/sa/weatherforecast")
-      console.log("server", await data.json())
+      const data = await fetch("https://localhost:10000/sa/weatherforecast")
+      console.log("data from service A", await data.json())
     }
     const loadWeatherFromEnvoy = async () => {
-      const data = await fetch("https://localhost:10000/sa/weatherforecast")
-      console.log("envoy", await data.json())
+      const data = await fetch("https://localhost:10000/sb/weatherforecast")
+      console.log("data from service B", await data.json())
     }
 
     loadWeatherFromServer()

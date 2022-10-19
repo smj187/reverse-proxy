@@ -1,4 +1,4 @@
-version: "3.4"
+version: "3.8"
 
 services:
   serviceb:
@@ -8,12 +8,8 @@ services:
       dockerfile: ServiceB/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=https://+:443
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/ServiceB.pfx
-      - ASPNETCORE_Kestrel__Certificates__Default__Password=crypticpassword
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=test
     ports:
-      - "6101:80"
-      - "6100:443"
-    volumes:
-      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
-      - ${USERPROFILE}\.aspnet\Https:/https/:ro
+      - "5100:443"

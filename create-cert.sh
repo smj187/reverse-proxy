@@ -4,7 +4,7 @@ PASS=123456
 
 CERT_OUT_DIR=keystore
 CERT_OUT_ENVOY=gateway/certificates
-CERT_OUT_CLIENT=webapp/certificates
+CERT_OUT_WEB_APP=webapp/certificates
 
 # Server Key
 echo Generate server key...
@@ -27,14 +27,15 @@ echo Removing passphrase from server key...
 openssl rsa -passin pass:${PASS} -in ${CERT_OUT_DIR}/server.key \
         -out ${CERT_OUT_DIR}/server.key
 
-# Copy certificates to client file server and Envoy
+# Copy certificates to projects
 echo Copying server key and server certificate to client file server...
-cp -rf ${CERT_OUT_DIR}/server.key ${CERT_OUT_CLIENT}/server.key
-cp -rf ${CERT_OUT_DIR}/server.crt ${CERT_OUT_CLIENT}/server.crt
+cp -rf ${CERT_OUT_DIR}/server.key ${CERT_OUT_WEB_APP}/server.key
+cp -rf ${CERT_OUT_DIR}/server.crt ${CERT_OUT_WEB_APP}/server.crt
 
 echo Copying server key and server certificate to Envoy...
 cp -rf ${CERT_OUT_DIR}/server.key ${CERT_OUT_ENVOY}/server.key
 cp -rf ${CERT_OUT_DIR}/server.crt ${CERT_OUT_ENVOY}/server.crt
+
 
 echo Done! Closing in 3 seconds...
 sleep 3

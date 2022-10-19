@@ -1,30 +1,52 @@
+## Local-isolated API development
+
 ```
+// generate dotnet core https certificate
 dotnet dev-certs https -ep $env:USERPROFILE\.aspnet\https\ServiceA.pfx -p crypticpassword
-dotnet user-secrets -p .\ServiceA\ServiceA.csproj set "Kestrel:Certificates:Production:Password" "crypticpassword"
-dotnet dev-certs https --trust
-
-docker-compose -f docker-compose-a.yaml up --build
-```
-
-```
 dotnet dev-certs https -ep $env:USERPROFILE\.aspnet\https\ServiceB.pfx -p crypticpassword
-dotnet user-secrets -p .\ServiceB\ServiceB.csproj set "Kestrel:Certificates:Production:Password" "crypticpassword"
+
+// set user secret
+dotnet user-secrets -p .\ServiceA\ServiceA.csproj set "Kestrel:Certificates:Production:Password" "crypticpassword"
+dotnet user-secrets -p .\ServiceA\ServiceB.csproj set "Kestrel:Certificates:Production:Password" "crypticpassword"
+
+// trust generated certificate
 dotnet dev-certs https --trust
 
+// run local
+cd ServiceA/ && dotnet watch
+cd ServiceB/ && dotnet watch
+
+// or with docker compose
+docker-compose -f docker-compose-a.yaml up --build
 docker-compose -f docker-compose-b.yaml up --build
 ```
 
-// Service A https/http
+## Envoy setup
 
-localport: 4000/4001 docker:5100/5101 envoy:10000
+1. From the root directory, run the `create-ca-cert.sh` script to generate the
+   Certificate Authority.
+2. From the root directory, run the `create-cert.sh` script.
+3. Add the generated `ca.crt` (from the `keystore` directory) to you machine's
+   Trusted Root Certificates (I used this
+   [guide](https://support.kaspersky.com/CyberTrace/1.0/en-US/174127.htm)) 4
+   Generate pfx
 
-// Service B https/http
+```
+openssl pkcs12 -export -out ServiceA/certificates/ServiceA.pfx -inkey .\keystore\server.key -in .\keystore\server.crt
+openssl pkcs12 -export -out ServiceB/certificates/ServiceB.pfx -inkey .\keystore\server.key -in .\keystore\server.crt
+```
 
-localport: 5000/5001 docker:6100/6101 envoy:10000
+## Run Setup
 
-// Routes https://localhost:5100/sa/weatherforecast
-https://localhost:6100/sb/weatherforecast
-https://localhost:10000/sa/weatherforecast
-https://localhost:10000/sb/weatherforecast
+```
+docker-compose -f docker-compose-a.yaml up --build
+docker-compose -f docker-compose-b.yaml up --build
+docker-compose -f docker-compose-envoy.yaml up --build
+cd webapp && pnpm i && pnpm dev
+```
 
-https://support.kaspersky.com/CyberTrace/1.0/en-US/174127.htm
+## Routes
+
+- `GET` -> https://localhost:10000/health
+- `GET` -> https://localhost:10000/sa/weatherforecast
+- `GET` -> https://localhost:10000/sb/weatherforecast
