@@ -1,0 +1,19 @@
+version: "3.4"
+
+services:
+  servicea:
+    image: ${DOCKER_REGISTRY-}servicea
+    build:
+      context: .
+      dockerfile: ServiceA/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/ServiceA.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=crypticpassword
+    ports:
+      - "5101:80"
+      - "5100:443"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${USERPROFILE}\.aspnet\Https:/https/:ro
