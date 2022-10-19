@@ -1,9 +1,23 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { useEffect, useState } from "react"
+import reactLogo from "./assets/react.svg"
+import "./App.css"
 
 function App() {
   const [count, setCount] = useState(0)
+
+  useEffect(() => {
+    const loadWeatherFromServer = async () => {
+      const data = await fetch("https://localhost:5100/sa/weatherforecast")
+      console.log("server", await data.json())
+    }
+    const loadWeatherFromEnvoy = async () => {
+      const data = await fetch("https://localhost:10000/sa/weatherforecast")
+      console.log("envoy", await data.json())
+    }
+
+    loadWeatherFromServer()
+    loadWeatherFromEnvoy()
+  }, [])
 
   return (
     <div className="App">
@@ -17,7 +31,7 @@ function App() {
       </div>
       <h1>Vite + React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
+        <button onClick={() => setCount(count => count + 1)}>
           count is {count}
         </button>
         <p>
@@ -32,3 +46,4 @@ function App() {
 }
 
 export default App
+

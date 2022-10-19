@@ -26,3 +26,5 @@ localport: 5000/5001 docker:6100/6101 envoy:10000
 https://localhost:6100/sb/weatherforecast
 https://localhost:10000/sa/weatherforecast
 https://localhost:10000/sb/weatherforecast
+
+https://support.kaspersky.com/CyberTrace/1.0/en-US/174127.htm

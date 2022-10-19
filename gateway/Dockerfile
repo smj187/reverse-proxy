@@ -4,6 +4,9 @@ COPY ./envoy.yaml /etc/envoy.yaml
 COPY ./configs /var/lib/envoy
 COPY ./https /var/lib/envoy/https
 
+ADD ./certificates/server.crt /etc/server.crt
+ADD ./certificates/server.key /etc/server.key
+
 RUN chmod go+x /var/lib/envoy && chmod go+r /etc/envoy.yaml /var/lib/envoy/*
 
 CMD ["/usr/local/bin/envoy", "-c /etc/envoy.yaml"]
